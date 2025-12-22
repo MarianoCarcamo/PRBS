@@ -9,7 +9,7 @@ This repository provides a **PRBS (Pseudo-Random Binary Sequence)** generator al
 Clone the repository and make sure it is on your Python path:
 
 ```bash
-git clone https://github.com/<your-username>/prbs.git
+git clone https://github.com/MarianoCarcamo/PRBS.git
 cd prbs
 ```
 
@@ -74,3 +74,5 @@ Notes:\
 The generator follows standard PRBS/LFSR behavior.
 Parallel output allows multiple bits to be generated per cycle.
 Suitable for modeling, simulation, and verification workflows.
+
+**A complete example is in Example.ipynb**
