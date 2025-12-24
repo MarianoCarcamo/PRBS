@@ -32,6 +32,34 @@ class PRBS:
     def get_sample(self):
         return next(self.__sample)
 
+    def write_define_file(self):
+        """Escribe el archivo "Defines" para una correcta ejecucion de TestBenches y top design"""
+        n = self.__degree
+        k = self.__k
+        max_prbs = int(np.ceil(n/k))
+        seed = self.__seed
+        poly = self.__prbs_poly
+
+        poly  = int(''.join(map(str,poly[n-1::-1])),2)
+        order = int(''.join(['0']*(max_prbs*k-n)+['1']*n),2)
+        seed  = int(''.join(map(str,seed)),2)
+
+        with open("./RTL/Defines.v","w") as f:
+            f.write(f"`define PARALLEL {k}\n")
+            f.write(f"`define MAX_PRBS {max_prbs}\n")
+            f.write(f"`define POLY {poly}\n")
+            f.write(f"`define ORDER {order}\n")
+            f.write(f"`define SEED {seed}\n")
+
+    def write_vector_file(self, length = 10000):
+        """Genera la secuencia de la PRBS a comparar con el RTL"""
+        sample = self.__sample_generator()
+        sequence = [next(sample) for _ in range(length)]
+        with open('./vector_files/prbs_vector.out', 'w') as f:
+            for i in range(length):
+                for j in range(self.__k):
+                    f.write(f"{sequence[i][j]} ")
+
     ########################################################################################################
     # Private
     ########################################################################################################
@@ -94,3 +122,4 @@ class PRBS:
                     extra_lines.append(int(np.bitwise_xor.reduce(np.bitwise_and(new_state,connections[i]))))
             out = new_state+extra_lines
             state = new_state
+    
