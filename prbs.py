@@ -30,7 +30,7 @@ class PRBS:
     # Public
     ###############################################################################################################
     def get_sample(self):
-        return next(self.__sample)
+        return next(self.__sample)[0:self.__k]
 
     def write_define_file(self):
         """Escribe el archivo "Defines" para una correcta ejecucion de TestBenches y top design"""
